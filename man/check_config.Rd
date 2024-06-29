@@ -8,7 +8,9 @@ check_config(
   icfg,
   reference_file = "config/default.cfg",
   modulepath = "modules/",
-  settings_config = NULL
+  settings_config = NULL,
+  extras = NULL,
+  saveCheck = FALSE
 )
 }
 \arguments{
@@ -23,6 +25,13 @@ corresponding module check is deactivated.}
 
 \item{settings_config}{path where the table of possible setting combinations
 is stored, if NULL it is ignored}
+
+\item{extras}{vector of setting names that are allowed to appear in the input config
+even if they are missing in the reference config. That can be useful to allow for
+additional settings/information which does not necessarily have to exist}
+
+\item{saveCheck}{additional check which makes sure that saving and loading it to/from
+YAML format does not change its contents}
 }
 \value{
 The checked config as a config list ready for further usage.

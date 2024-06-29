@@ -2,13 +2,13 @@
 #' 
 #' Function to replace a marked paragaph in a text file. Paragraph has to be
 #' marked in the text file with an initial "##### R SECTION START (SUBJECT)
-#' #####" and "##### R SECTION END (SUBJECT) #####" as ending. The number of \#
+#' #####" and "##### R SECTION END (SUBJECT) #####" as ending. The number of #
 #' symbols can be chosen by the user, but there has to be at least one at the
 #' beginning and one at the end. Furthermore it is allowed to add further
 #' symbols at the beginning or the end of the line. "SUBJECT" is chosen by the
 #' user and is used for identification, if a text file has more than one R
 #' section.
-#' 
+#'
 #' @param file a connection object or a character string describing the file,
 #' that should be manipulated.
 #' @param content the content that should be used as replacement stored as a
@@ -59,12 +59,13 @@ replace_in_file <- function(file, content, subject='CODE',add=FALSE,addfile=FALS
     } else if(add=="bottom" | add==TRUE) {
       f <- c(f,"",start_raw,end_raw,"")  
     } else {
-      stop(paste("end pattern was found",length(end_row),"times!"))    
+      stop("end pattern was found ", length(end_row), " times in ", file, "!")    
     }
   }
   start_row <- grep(start,f)
   end_row <- grep(end,f)
-  if(start_row >= end_row) stop("end pattern found before start pattern")
+  if (start_row >= end_row)
+    stop("end pattern found before start pattern in ", file)
   
   f <- c(f[1:start_row],content,f[end_row:length(f)])
   writeLines(f,file)

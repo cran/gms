@@ -11,16 +11,17 @@ $title dummymodel
 *' by goxygen, but has not content and cannot be solved with GAMS. It can serve as 
 *' a template to build a modular GAMS model from scratch.
 *'
-*' The dummy model consists of two modules [01_fancymodule] and [02_crazymodule].
+*' The dummy model consists of three modules [01_fancymodule], [02_crazymodule],
+*' and [03_Rmodule].
 
 $setglobal fancymodule  default
 $setglobal crazymodule  simple
+$setglobal Rmodule  withr
 
 *$include "./core/sets.gms" DONE!
 sets
    i dummy set /x1,x2,x3/
 ;
-
 *$include "./core/core.gms" DONE!
 
 #' @code Here we are doing some core calculation stuff
@@ -31,8 +32,7 @@ parameter
 
 pm_global = 1;
 
-#' yihaaa!  
-
+#' yihaaa!
 *$batinclude "./modules/include.gms" calculations DONE!
 $setglobal phase %1
 $onrecurse
@@ -127,6 +127,32 @@ equations
 display vm_exchange.l;
 *######################## R SECTION END (PHASES) ###############################
 *###################### R SECTION END (MODULETYPES) ############################
+*$include "./modules/03_Rmodule/module.gms" DONE!
+*' @title Module which uses R
+
+*' @description This module uses an R script!
+
+*' @authors Bruce Wayne, Max Mustermann
+
+*###################### R SECTION START (MODULETYPES) ##########################
+*$Ifi "%Rmodule%" == "withr" $include "./modules/03_Rmodule/withr/realization.gms" DONE!
+
+*' @description This realization uses R!
+
+*' @limitations It is not really working as it is just an example.
+
+*####################### R SECTION START (PHASES) ##############################
+*$Ifi "%phase%" == "calculations" $include "./modules/03_Rmodule/withr/calculations.gms" DONE!
+*' @code Let's add running an R script, twice
+
+Execute "Rscript modules/03_Rmodule/withr/run_calculations.R";
+Execute.checkErrorLevel "Rscript modules/03_Rmodule/withr/run_calculations.R";
+*######################## R SECTION END (PHASES) ###############################
+*###################### R SECTION END (MODULETYPES) ############################
 *######################## R SECTION END (MODULES) ##############################
 $offrecurse
 
+*' @title{extrapage: "settings"}
+*' Settings
+*' @description{extrapage: "settings"}
+*' We might want to move some documentation to a separate page called Settings.

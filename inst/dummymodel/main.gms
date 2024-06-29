@@ -9,12 +9,18 @@ $title dummymodel
 *' by goxygen, but has not content and cannot be solved with GAMS. It can serve as 
 *' a template to build a modular GAMS model from scratch.
 *'
-*' The dummy model consists of two modules [01_fancymodule] and [02_crazymodule].
+*' The dummy model consists of three modules [01_fancymodule], [02_crazymodule],
+*' and [03_Rmodule].
 
 $setglobal fancymodule  default
 $setglobal crazymodule  simple
+$setglobal Rmodule  withr
 
 $include "./core/sets.gms"
 $include "./core/core.gms"
 $batinclude "./modules/include.gms" calculations
 
+*' @title{extrapage: "settings"}
+*' Settings
+*' @description{extrapage: "settings"}
+*' We might want to move some documentation to a separate page called Settings.

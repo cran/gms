@@ -40,10 +40,10 @@ setScenario <- function(cfg,scenario,scenario_config="config/scenario_config.csv
         stop("Wrong input format: cfg is neither a list nor a character!")
       }
     }
-    tmp <- try(read.csv(scenario_config,as.is=TRUE,check.names=FALSE), silent=TRUE)
+    tmp <- try(read.csv(scenario_config, as.is = TRUE, check.names = FALSE, colClasses = "character"), silent = TRUE)
     #check whether reading the table was succesfull, if not try to read it differently
-    if(class(tmp)=="try-error" || all(dimnames(tmp)[[1]]==as.character(1:dim(tmp)[1]))) {
-      tmp <- read.csv(scenario_config,as.is=TRUE,sep=";",check.names=FALSE)
+    if(inherits(tmp, "try-error") || all(dimnames(tmp)[[1]]==as.character(1:dim(tmp)[1]))) {
+      tmp <- read.csv(scenario_config, as.is=TRUE, sep=";", check.names=FALSE, colClasses = "character")
       dimnames(tmp)[[1]] <- tmp[,1]
       tmp <- tmp[,-1]
     }
@@ -51,8 +51,8 @@ setScenario <- function(cfg,scenario,scenario_config="config/scenario_config.csv
     
     
   for (x in scenario) {
-    if(!(x %in% colnames(scenario_config))) stop("No settings for scenario ",x," found in scenario config!")
-    message("\nApply",x,"settings on config:")
+    if(!(x %in% colnames(scenario_config))) stop("No settings for scenario ", x, " found in scenario config!")
+    message("\nApply ", x, " settings on config:")
     
     # if there are no switches containing "$" all switches are interpreted as gams switches
     if (!any(grepl("\\$",rownames(scenario_config)))) {
